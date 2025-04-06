@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-struct Estacion {    // estructura para representar una estaci髇
-    int ingresan;    // Personas que entran a la estaci髇
-    int destino[13]; // Personas que van a cada estaci髇
+struct Estacion {    // estructura para representar una estaci贸n
+    int ingresan;    // Personas que entran a la estaci贸n
+    int destino[13]; // Personas que van a cada estaci贸n
 };
 void imprimir_encabezado() {
     printf("   Estacion   Ingresan   ");
@@ -20,8 +20,8 @@ void imprimir_fila(int num_estacion, struct Estacion *estacion) {
     }
     printf("\n");
 }
-int generar_ingreso(int min, int max, int estacion) { //numero aleatorio de personas que ingresan a una estaci髇
-    if (estacion==13) {  //si es la estaci髇 13, el n鷐ero de ingresos siempre es 0 porque es el 鷏timo paradero y es unidireccional
+int generar_ingreso(int min, int max, int estacion) { //numero aleatorio de personas que ingresan a una estaci贸n
+    if (estacion==13) {  //si es la estaci贸n 13, el n煤mero de ingresos siempre es 0 porque es el 煤ltimo paradero y es unidireccional
         return 0;
     }
     return rand()%(max-min+1)+min;
@@ -32,7 +32,7 @@ void distribuir_personas(struct Estacion *estacion, int total_ingresos, int esta
         estacion->destino[i]=0;
     }
 
-    // distribuir personas basadas en la estaci髇 de origen
+    // distribuir personas basadas en la estaci贸n de origen
     int i=estacion_origen;
     while (i<13) {
         int personas_a_destino=rand()%(ingresos_restantes+1);
@@ -42,18 +42,18 @@ void distribuir_personas(struct Estacion *estacion, int total_ingresos, int esta
     }
 }
 int main() {
-    printf("Simulaci髇 de flujo de personas del metropolitano\n");
+    printf("Simulaci贸n de flujo de personas del metropolitano\n");
     srand(time(NULL));
     struct Estacion estaciones[13]={0};
  
     int total_recogido_por_hora = 0; // Inicializamos el total recogido por hora en 0
     
-    int rangos[13][2]={   // Array de rangos para el n鷐ero de personas que ingresan a cada estaci髇
+    int rangos[13][2]={   // Array de rangos para el n煤mero de personas que ingresan a cada estaci贸n
         {10, 20}, {20, 30}, {30, 40}, {50, 60}, {60, 70}, {70, 80}, {80, 90},
         {90, 100}, {80, 90}, {80, 90}, {50, 70}, {20, 30}, {20, 30}
     };
     
-    for (int hora=6;hora<= 24;hora++) { // Para el n鷐ero de horas
+    for (int hora=6;hora<= 24;hora++) { // Para el n煤mero de horas
         printf("\n%d horas:\n",hora);
         imprimir_encabezado();
         
@@ -61,13 +61,13 @@ int main() {
         
         for (int j= 0;j<13;j++) {
             
-            estaciones[j].ingresan=generar_ingreso(rangos[j][0],rangos[j][1],j+1); // Genera un n鷐ero aleatorio de personas que ingresan a la estaci髇
+            estaciones[j].ingresan=generar_ingreso(rangos[j][0],rangos[j][1],j+1); // Genera un n煤mero aleatorio de personas que ingresan a la estaci贸n
 
             distribuir_personas(&estaciones[j],estaciones[j].ingresan, j + 1);
 
             imprimir_fila(j+1,&estaciones[j]);
             
-            // sumamos el n鷐ero de personas ingresadas a todas las estaciones para obtener el total recogido por el autob鷖
+            // sumamos el n煤mero de personas ingresadas a todas las estaciones para obtener el total recogido por el autob煤s
             total_recogido_por_hora += estaciones[j].ingresan;
         }
 
